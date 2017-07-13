@@ -144,6 +144,8 @@ echo_test_1(SockOpts, EchoFun, Config0) ->
     echo_packet([{packet, 1}|SockOpts], EchoFun, Config),
     echo_packet([{packet, 2}|SockOpts], EchoFun, Config),
     echo_packet([{packet, 4}|SockOpts], EchoFun, Config),
+    echo_packet([{packet,-2}|SockOpts], EchoFun, Config),
+    echo_packet([{packet,-4}|SockOpts], EchoFun, Config),
     echo_packet([{packet, sunrm}|SockOpts], EchoFun, Config),
     echo_packet([{packet, cdr}|SockOpts], EchoFun,
 		[{type, {cdr, big}}|Config]),
@@ -359,6 +361,8 @@ packet({Size, _RecvLimit}, Type) ->
 packet(Size, 1) when Size > 255 ->
     false;
 packet(Size, 2) when Size > 65535 ->
+    false;
+packet(Size, -2) when Size > 65535 ->
     false;
 packet(Size, {asn1, _, Tag}) when Size < 128 ->
     Tag++[Size|random_packet(Size)];

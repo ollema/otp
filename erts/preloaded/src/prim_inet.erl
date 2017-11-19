@@ -1605,6 +1605,7 @@ type_opt_1(packet) ->
 	   {cdr, ?TCP_PB_CDR},
 	   {fcgi, ?TCP_PB_FCGI},
 	   {line, ?TCP_PB_LINE_LF},
+	   {crlf, ?TCP_PB_LINE_CRLF},
 	   {tpkt, ?TCP_PB_TPKT},
 	   {http, ?TCP_PB_HTTP},
 	   {httph,?TCP_PB_HTTPH},

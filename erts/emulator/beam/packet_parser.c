@@ -328,6 +328,35 @@ int packet_get_length(enum PacketParseType htype,
         }
     }
 
+    case TCP_PB_LINE_CRLF: {
+        /* TCP_PB_LINE_CRLF:  [Data ... '\r', '\n']  */
+        plen = n;
+        if ((plen == 2) && CRNL(ptr))
+            goto done;
+        else {
+            const char* ptr2 = memmem(ptr, plen, "\r\n", 2);
+            if ( ptr2 == NULL ) {
+                if (max_plen != 0 && plen > max_plen) {
+                    goto error;
+                }
+                if (trunc_len != 0 && plen > trunc_len) {
+                    return trunc_len;
+                }
+                goto more;
+            }
+            else {
+                plen = (ptr2 - ptr) + 2;
+                if (max_plen != 0 && plen > max_plen) {
+                    goto error;
+                }
+                if (trunc_len != 0 && plen > trunc_len) {
+                    return trunc_len;
+                }
+                goto done;
+            }
+        }
+    }
+
     case TCP_PB_ASN1: {
         /* TCP_PB_ASN1: handles long (4 bytes) or short length format */
         const char* tptr = ptr;

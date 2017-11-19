@@ -1380,6 +1380,7 @@ BIF_RETTYPE decode_packet_3(BIF_ALIST_3)
     case am_cdr: type = TCP_PB_CDR; break;
     case am_fcgi: type = TCP_PB_FCGI; break;
     case am_line: type = TCP_PB_LINE_LF; break;
+    case am_crlf: type = TCP_PB_LINE_CRLF; break;
     case am_tpkt: type = TCP_PB_TPKT; break;
     case am_http: type = TCP_PB_HTTP; break;
     case am_httph: type = TCP_PB_HTTPH; break;
